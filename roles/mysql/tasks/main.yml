@@ -1,0 +1,47 @@
+- name: mysql - Download mysql rpm
+  get_url:
+    url: http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
+    dest: /root/mysql-community-release-el7-5.noarch.rpm
+    mode: 0755
+  changed_when: false
+
+- name: mysql - Install mysql repo
+  yum:
+    name: /root/mysql-community-release-el7-5.noarch.rpm
+    state: installed
+
+- name: mysql - Install mysql server
+  yum:
+    name: mysql-server
+    state: installed
+
+- name: mysql - Start and enable mysql server
+  service:
+    name: mysqld
+    state: started
+    enabled: yes
+
+- name: mysql - Copy mysql_secure_installation script
+  template:
+    src: mysql_secure_installation.sh.j2
+    dest: /tmp/mysql_secure_installation.sh
+    mode: 'u+x'
+    owner: root
+    group: root
+  changed_when: false
+
+- name: mysql - Harden mysql server
+  shell: /bin/bash /tmp/mysql_secure_installation.sh
+  changed_when: false
+
+- name: mysql - Cleanup temp files
+  file:
+    dest: "{{ item }}"
+    state: absent
+  with_items:
+    - /root/mysql-community-release-el7-5.noarch.rpm
+    - /tmp/mysql_secure_installation.sh
+  changed_when: false
+
+
+

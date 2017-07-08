@@ -1,0 +1,13 @@
+- name: php - Install PHP packages
+  yum:
+    name: "{{ item }}"
+    state: installed
+  with_items:
+    - php 
+    - php-common 
+    - php-mysql 
+    - php-gd 
+    - php-xml 
+    - php-mbstring 
+    - php-mcrypt
+

@@ -1,0 +1,27 @@
+#!/bin/bash
+# Author : Nahid Jawad (nahid.jawad@gmail.com)
+# Date   : 09/07/2017
+# Purpose: This script basically automates mysql_secure_installation script shipped with the rpm package
+
+rootpass={{ mysql.root_pass }}
+
+# Test if password is set
+mysql -u root > /dev/null 2>&1 
+
+if [ $? -ne 0 ];then
+  echo "Mysql root password exist"
+else
+  echo "Mysql server hardening process starting..."
+  # Update mysql password
+  mysql -e "UPDATE mysql.user SET Password=PASSWORD('$rootpass') WHERE User='root';"
+  # Disable remote root user login
+  mysql -e "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');"
+  # Remove Anonymous users
+  mysql -e "DELETE FROM mysql.user WHERE User='';"
+  # Remove test database
+  mysql -e "DROP DATABASE IF EXISTS test;"
+  # Flush privileges
+  mysql -e "FLUSH PRIVILEGES;"
+fi
+
+exit 0

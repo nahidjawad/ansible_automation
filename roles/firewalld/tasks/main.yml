@@ -1,0 +1,11 @@
+- name: firewalld - Enable https and http services
+  firewalld:
+    zone: public
+    service: "{{ item }}"
+    permanent: true
+    immediate: true
+    state: enabled
+  with_items:
+    - https
+    - http
+
