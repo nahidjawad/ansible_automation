@@ -14,6 +14,13 @@ Make sure the hosts.yml file containts a hostname/IP address of your target host
 ansible-playbook -i hosts.yml plays/wordpress.yml
 ```
 
+#### hosts
+A typical host file to run wordpress on a system called www.test.com may look like
+
+```
+[wordpress]
+www.test.com 
+```
 #### vars
 Variables are stored in groupvars/ directory. For example to install version 4.7, edit groupvars/wordpress file as
 
