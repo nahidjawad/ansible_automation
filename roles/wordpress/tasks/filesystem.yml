@@ -1,0 +1,37 @@
+- name: wordpress - Download wordpress
+  get_url: 
+    url: https://wordpress.org/wordpress-{{ wordpress.version }}.tar.gz 
+    dest: /tmp/wordpress-{{ wordpress.version }}.tar.gz
+    checksum: "md5:{{ wordpress.md5sum }}"
+
+- name: wordpress - Untar wordpress archive
+  unarchive:
+    src: /tmp/wordpress-{{ wordpress.version }}.tar.gz
+    dest: /tmp
+    remote_src: true
+    owner: apache
+    group: apache
+  changed_when: false
+
+- name: wordpress - Check if wordpress directory exists
+  stat:
+    path: "{{ wordpress.install_path }}/{{ apache.domain_name }}"
+  register: wordpress_dir
+
+- name: wordpress - move
+  shell: mv --strip-trailing-slashes /tmp/wordpress "{{ wordpress.install_path }}/{{ apache.domain_name }}"
+  when: wordpress_dir.stat.isdir is not defined and wordpress_dir.stat.isdir == False
+
+- name: wordpress - Remove temp folder
+  file:
+    path: /tmp/wordpress
+    state: absent
+  changed_when: false
+
+- name: wordpress - Apply directory permission
+  file:
+    dest: "{{ wordpress.install_path }}/{{ apache.domain_name }}"
+    state: directory
+    owner: apache
+    group: apache
+    mode: 0755 

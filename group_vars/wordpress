@@ -1,0 +1,16 @@
+wordpress:
+  version: 4.8
+  db_name: test
+  db_user: user_test
+  install_path: /var/www
+  md5sum: b91248a7220a7fb1ca293c3a0ec8db6c
+
+apache:
+  server_admin: test@test.com
+  domain_name: www.test.com
+
+mysql:
+  root_pass: "{{ lookup('password', '../../credentials/' + '{{ inventory_hostname }}' + '/' + '/mysql_root_password length=15') }}"
+  db_pass: "{{ lookup('password', '../../credentials/' + '{{ inventory_hostname }}' + '/' + '{{ wordpress.db_name }}' + '/' + '{{ wordpress.db_user }}' + '/' + '/db_pass length=8') }}"
+  db_host: localhost
+  db_encoding: utf8

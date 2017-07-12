@@ -10,10 +10,13 @@
     name: /root/mysql-community-release-el7-5.noarch.rpm
     state: installed
 
-- name: mysql - Install mysql server
+- name: mysql - Install mysql server and mysql python
   yum:
-    name: mysql-server
+    name: "{{ item }}"
     state: installed
+  with_items:
+    - MySQL-python
+    - mysql-server
 
 - name: mysql - Start and enable mysql server
   service:

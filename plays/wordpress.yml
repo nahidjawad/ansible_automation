@@ -2,7 +2,9 @@
 - hosts: wordpress
   become: true
   roles:
+    - repo
     - apache
     - mysql
     - php
     - firewalld
+    - wordpress

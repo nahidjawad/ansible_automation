@@ -1,0 +1,25 @@
+# Replacing " { " in the salt because ansible template module run into error trying to parse "{#" "{%" or "{{"
+- name: wordpress - Querying wordpress API for secret
+  shell: curl -s https://api.wordpress.org/secret-key/1.1/salt > /tmp/salt.txt ; /usr/bin/perl -pi -e 's/{/X/g' /tmp/salt.txt; /bin/cat /tmp/salt.txt
+  args:
+    warn: false
+  register: salt_api_response
+  changed_when: false
+
+- name: wordpress - Save secret to a variable
+  set_fact: wordpress_auth_keys={% raw %}{{ salt_api_response.stdout }}{% endraw %}
+
+- name: wordpress - Upload wp-config.php
+  template:
+    dest: "{{ wordpress.install_path }}/{{ apache.domain_name }}/wp-config.php"
+    src: wp-config.php.j2
+    owner: apache
+    group: apache
+    mode: 0644
+    backup: yes
+
+- name: remove temporary salt file
+  file:
+    dest: /tmp/salt.txt
+    state: absent
+  changed_when: false

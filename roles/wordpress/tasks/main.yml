@@ -1,0 +1,11 @@
+- name: Wordpress database tasks
+  include: db.yml
+
+- name: Wordpress filesystem tasks
+  include: filesystem.yml
+
+- name: Wordpress configuration
+  include: wpconfig.yml
+
+- name: Wordpress Apache vhost tasks
+  include: apache.yml

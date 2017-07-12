@@ -1,0 +1,17 @@
+- name: wordpress - create db
+  mysql_db:
+    login_user: root
+    login_password: "{{ mysql.root_pass }}"
+    name: "{{ wordpress.db_name }}"
+    state: present
+    encoding: "{{ mysql.db_encoding }}"
+
+- name: wordpress - create db user
+  mysql_user:
+    login_user: root
+    login_password: "{{ mysql.root_pass }}"
+    name: "{{ wordpress.db_user }}"
+    host: "{{ mysql.db_host }}"
+    password: "{{ mysql.db_pass }}"
+    priv: '{{ wordpress.db_name }}.*:ALL'
+    state: present
