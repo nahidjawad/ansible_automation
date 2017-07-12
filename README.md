@@ -34,7 +34,11 @@ credentials/
 |   |   +-- user_test/
 |   |   |   +-- db_pass
 ```
-Here, ansible stored the mysql root password in mysql_root_password file under the directory named after inventory host www.test.com. Inside www.test.com directory, each directory is the name of a mysql database created by Ansible. Each of these mysql database directories contains directories named as the database user (i.e. user_test is a database user of the database test). The password for user_test is stored inside the directory in the text file db_pass.
+Here, ansible stored the mysql root password in mysql_root_password file under the directory named after inventory host www.test.com.
+
+Inside www.test.com directory, each directory is the name of a mysql database created by Ansible. Each of these mysql database directories contains directories named as the database user (i.e. user_test is a database user of the database test). 
+
+The password for user_test is stored inside the directory in the text file db_pass.
 
 
 
