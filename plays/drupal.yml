@@ -1,0 +1,10 @@
+---
+- hosts: drupal
+  become: true
+  roles:
+    - repo
+    - apache
+    - mysql
+    - php
+    - firewalld
+    - drupal

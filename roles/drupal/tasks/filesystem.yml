@@ -1,0 +1,37 @@
+- name: drupal - Download drupal
+  get_url: 
+    url: https://ftp.drupal.org/files/projects/drupal-{{ drupal.version }}.tar.gz 
+    dest: /tmp/drupal-{{ drupal.version }}.tar.gz
+    checksum: "md5:{{ drupal.md5sum }}"
+
+- name: drupal - Untar drupal archive
+  unarchive:
+    src: /tmp/drupal-{{ drupal.version }}.tar.gz
+    dest: /tmp
+    remote_src: true
+    owner: apache
+    group: apache
+  changed_when: false
+
+- name: drupal - Check if drupal directory exists
+  stat:
+    path: "{{ drupal.install_path }}/{{ apache.domain_name }}"
+  register: drupal_dir
+
+- name: drupal - move
+  shell: mv --strip-trailing-slashes /tmp/drupal-{{ drupal.version }} "{{ drupal.install_path }}/{{ apache.domain_name }}"
+  when: drupal_dir.stat.isdir is not defined and drupal_dir.stat.isdir == False
+
+- name: drupal - Remove temp folder
+  file:
+    path: /tmp/drupal-{{ drupal.version }}
+    state: absent
+  changed_when: false
+
+- name: drupal - Apply directory permission
+  file:
+    dest: "{{ drupal.install_path }}/{{ apache.domain_name }}"
+    state: directory
+    owner: apache
+    group: apache
+    mode: 0755 

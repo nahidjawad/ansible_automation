@@ -1,0 +1,11 @@
+- name: Drupal database tasks
+  include: db.yml
+
+- name: Drupal filesystem tasks
+  include: filesystem.yml
+
+- name: Drupal configuration
+  include: drupalconfig.yml
+
+- name: Drupal Apache vhost tasks
+  include: apache.yml

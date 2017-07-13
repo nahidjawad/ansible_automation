@@ -1,0 +1,8 @@
+- name: drupal - copy default drupal config
+  copy:
+    src: "{{ drupal.install_path }}/{{ apache.domain_name }}/sites/default/default.settings.php"
+    dest: "{{ drupal.install_path }}/{{ apache.domain_name }}/sites/settings.php"
+    owner: apache
+    group: apache
+    mode: 0644
+    remote_src: true

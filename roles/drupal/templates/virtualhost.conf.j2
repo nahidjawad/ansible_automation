@@ -1,0 +1,7 @@
+<VirtualHost *:80>
+ServerAdmin {{ apache.server_admin }}
+DocumentRoot {{ wordpress.install_path }}/{{ apache.domain_name }}
+ServerName {{ apache.domain_name }}
+ErrorLog /var/log/httpd/wordpress-error-log
+CustomLog /var/log/httpd/wordpress-acces-log common
+</VirtualHost>
