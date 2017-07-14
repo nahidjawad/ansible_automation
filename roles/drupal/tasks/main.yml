@@ -9,3 +9,6 @@
 
 - name: Drupal Apache vhost tasks
   include: apache.yml
+
+- name: Drupal Drush installation tasks
+  include: drush.yml

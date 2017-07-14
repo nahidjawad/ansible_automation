@@ -1,5 +1,0 @@
-- name: drupal - create drush path
-  file:
-    dest: /usr/local/drush
-    state: directory
-    

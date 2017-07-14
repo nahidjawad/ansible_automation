@@ -1,9 +1,12 @@
 drupal:
-  version: 7.15
+  version: 7.56
+  site_name: "Test Site"
   db_name: test
   db_user: user_test
   install_path: /var/www
-  md5sum: f42c9baccd74e1d035d61ff537ae21b4
+  md5sum: 5d198f40f0f1cbf9cdf1bf3de842e534
+  admin_user: admin
+  admin_pass: "{{ lookup('password', '../../credentials/' + '{{ inventory_hostname }}' + '/' + '/drupal_admin_pass length=8') }}"
 
 apache:
   server_admin: test@test.com
@@ -14,3 +17,6 @@ mysql:
   db_pass: "{{ lookup('password', '../../credentials/' + '{{ inventory_hostname }}' + '/' + '{{ drupal.db_name }}' + '/' + '{{ drupal.db_user }}' + '/' + '/db_pass length=8') }}"
   db_host: localhost
   db_encoding: utf8
+
+drush:
+  version: 8.1.1

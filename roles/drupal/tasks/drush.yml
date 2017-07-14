@@ -1,0 +1,40 @@
+- name: drupal - create drush path
+  file:
+    dest: /usr/local/drush
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: drupal - download drush
+  get_url:
+    url: https://github.com/drush-ops/drush/archive/{{ drush.version }}.tar.gz
+    dest: /tmp/drush-{{ drush.version }}.tar.gz
+    mode: 0744
+
+- name: drupal - unarchive drush
+  unarchive:
+    src: /tmp/drush-{{ drush.version }}.tar.gz
+    dest: /usr/local/drush
+    remote_src: true
+    extra_opts: "--strip-components=1"
+
+- name: drupal - Add drush to PATH 
+  file:
+    src: /usr/local/drush/drush
+    dest: /usr/bin/drush
+    owner: root
+    group: root
+    mode: 0755
+    state: link
+
+- name: drupal - Install composer for drush
+  yum:
+    name: composer
+    state: installed
+
+- name: drupal - Run composer fetch dependencies
+  shell : cd /usr/local/drush && composer install
+
+- name: drupal - Install Drupal site 
+  shell: cd "{{ drupal.install_path }}/{{ apache.domain_name }}" && drush -y site-install standard --db-url='mysql://user_test:{{ mysql.db_pass }}@{{ mysql.db_host }}/{{ drupal.db_name }}' --site-name='{{ drupal.site_name }}' --account-name={{ drupal.admin_user }} --account-pass={{ drupal.admin_pass }}
