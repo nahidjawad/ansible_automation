@@ -1,0 +1,9 @@
+- name: Joomla - Disable php output buffering
+  ini_file:
+    dest: /etc/php.ini
+    section: PHP 
+    option: output_buffering
+    value: Off 
+    mode: 0644
+  notify:
+    - reload apache

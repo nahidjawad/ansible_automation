@@ -3,8 +3,8 @@ This repo containts playbooks, roles to deploy popular web apps and their stacks
 
 ## List of playbooks
  - Wordpress
- - Drupal (TODO)
- - Joomla (TODO)
+ - Drupal
+ - Joomla
 
 ### How to run a playbook
 

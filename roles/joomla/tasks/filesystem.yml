@@ -1,0 +1,33 @@
+- name: joomla - Download joomla
+  get_url: 
+    url: https://github.com/joomla/joomla-cms/releases/download/{{ joomla.version }}/Joomla_{{ joomla.version }}-Stable-Full_Package.tar.gz
+    dest: /tmp/joomla-{{ joomla.version }}.tar.gz
+    checksum: "md5:{{ joomla.md5sum }}"
+
+- name: joomla - Check if joomla directory exists
+  file:
+    path: "{{ joomla.install_path }}/{{ apache.domain_name }}"
+    state: directory
+
+- name: joomla - Untar joomla archive
+  unarchive:
+    src: /tmp/joomla-{{ joomla.version }}.tar.gz
+    dest: "{{ joomla.install_path }}/{{ apache.domain_name }}"
+    remote_src: true
+    owner: apache
+    group: apache
+    keep_newer: yes
+
+- name: joomla - Remove temp folder
+  file:
+    path: /tmp/joomla-{{ joomla.version }}
+    state: absent
+  changed_when: false
+
+- name: joomla - Apply directory permission
+  file:
+    dest: "{{ joomla.install_path }}/{{ apache.domain_name }}"
+    state: directory
+    owner: apache
+    group: apache
+    mode: 0755 

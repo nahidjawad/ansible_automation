@@ -1,0 +1,14 @@
+- name: Joomla database tasks
+  include: db.yml
+
+- name: Joomla filesystem tasks
+  include: filesystem.yml
+
+- name: Joomla Apache vhost tasks
+  include: apache.yml
+
+- name: Joomla Tune php tasks
+  include: php-tuner.yml
+
+- name: Joomla Instructions
+  include: instructions.yml

@@ -1,0 +1,7 @@
+- name: Joomla - Further Instructions
+  debug:
+    msg: 
+      - "Visit {{ apache.domain_name }} to complete the installation of Joomla!"
+      - "database name : {{ joomla.db_name }}"
+      - "database user : {{ joomla.db_user }}"
+      - "database_pass : {{ mysql.db_pass }}"

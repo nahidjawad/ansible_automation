@@ -8,6 +8,9 @@ drupal:
   admin_user: admin
   admin_pass: "{{ lookup('password', '../../credentials/' + '{{ inventory_hostname }}' + '/' + '/drupal_admin_pass length=8') }}"
 
+drush:
+  version: 8.1.1 # Make sure Drush version is compatable with Drupal version above
+  
 apache:
   server_admin: test@test.com
   domain_name: www.test.com
@@ -18,5 +21,4 @@ mysql:
   db_host: localhost
   db_encoding: utf8
 
-drush:
-  version: 8.1.1
+

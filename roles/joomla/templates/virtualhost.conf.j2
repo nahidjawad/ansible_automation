@@ -1,0 +1,12 @@
+<VirtualHost *:80>
+	ServerAdmin {{ apache.server_admin }}
+	DocumentRoot {{ joomla.install_path }}/{{ apache.domain_name }}
+	ServerName {{ apache.domain_name }}
+	ErrorLog /var/log/httpd/joomla-error-log
+	CustomLog /var/log/httpd/joomla-acces-log common
+
+	<Directory {{ joomla.install_path }}/{{ apache.domain_name }}>
+	  AllowOverride All
+	</Directory>
+
+</VirtualHost>

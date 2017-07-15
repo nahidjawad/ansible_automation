@@ -1,0 +1,20 @@
+- name: joomla - create apache include config
+  copy:
+    src: include.conf
+    dest: /etc/httpd/conf.d/include.conf
+
+- name: joomla - create apache sites directory
+  file:
+    dest: /etc/httpd/conf/sites
+    state: directory
+    owner: root
+    group: root
+
+- name: joomla - upload apache vhost
+  template:
+    src: virtualhost.conf.j2
+    dest: "/etc/httpd/conf/sites/{{ apache.domain_name }}.conf"
+    owner: root
+    group: root
+  notify:
+    - restart apache
