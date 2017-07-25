@@ -1,0 +1,8 @@
+nginx:
+  server_name: www.nahidjawad.com
+  proxy_pass_port: 2368
+ghost:
+  packages:
+    - unzip
+  version: 0.11.11
+  user: ghost

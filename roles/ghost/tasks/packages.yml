@@ -1,0 +1,6 @@
+- name: Install packages required for ghost
+  yum:
+    name: "{{ item }}"
+    state: installed
+  with_items:
+    - "{{ ghost.packages }}"

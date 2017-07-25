@@ -5,6 +5,7 @@ This repo containts playbooks, roles to deploy popular web apps and their stacks
  - Wordpress
  - Drupal
  - Joomla
+ - Ghost
 
 ### How to run a playbook
 

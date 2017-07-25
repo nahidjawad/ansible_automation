@@ -1,0 +1,9 @@
+---
+- hosts: ghost
+  become: true
+  roles:
+    - repo
+    - firewalld
+    - nodejs
+    - nginx
+    - ghost

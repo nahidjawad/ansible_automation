@@ -1,0 +1,18 @@
+- name: Upload Ghost service file
+  template:
+    src: ghost.service.j2
+    dest: /etc/systemd/system/ghost.service
+    owner: root
+    group: root
+
+- name: Start and enable Ghost service
+  service:
+    name: ghost
+    state: started
+    enabled: yes
+
+- name: Restart Nginx
+  service:
+    name: nginx 
+    state: restarted
+    

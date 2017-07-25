@@ -1,0 +1,6 @@
+- name: Create ghost user
+  user:
+    name: "{{ ghost.user }}"
+    comment: "Ghost User"
+    shell: /bin/bash
+    home: /var/www

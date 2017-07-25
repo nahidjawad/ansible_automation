@@ -1,0 +1,44 @@
+- name: Download Ghost cms
+  get_url:
+    url: "https://github.com/TryGhost/Ghost/releases/download/{{ ghost.version }}/Ghost-{{ ghost.version }}.zip"
+    dest: /tmp
+
+- name: Ensure Ghost directory
+  file:
+    path: "/var/www/Ghost-{{ ghost.version }}"
+    state: directory
+    owner: "{{ ghost.user }}"
+    group: "{{ ghost.user }}"
+    mode: 0755
+    recurse: yes
+
+- name: Unarchive Ghost 
+  unarchive:
+    src: "/tmp/Ghost-{{ ghost.version }}.zip"
+    dest: "/var/www/Ghost-{{ ghost.version }}"
+    remote_src: True
+    owner: "{{ ghost.user }}"
+    group: "{{ ghost.user }}"
+
+- name: Copy example config
+  copy:
+    src: "/var/www/Ghost-{{ ghost.version }}/config.example.js"
+    dest: "/var/www/Ghost-{{ ghost.version }}/config.js"
+    remote_src: True
+    owner: "{{ ghost.user }}"
+    group: "{{ ghost.user }}"
+    mode: 0644
+
+- name: Configure Ghost
+  lineinfile:
+    dest: "/var/www/Ghost-{{ ghost.version }}/config.js"
+    regexp: "^(.*)url: 'http://my-ghost-blog.com"
+    insertafter: 'production:'
+    line: "\turl: 'http://{{ nginx.server_name }}',"
+    owner: "{{ ghost.user }}"
+    group: "{{ ghost.user }}"
+
+- name: Install Ghost
+  become: True
+  become_user: "{{ ghost.user }}"
+  shell: "cd /var/www/Ghost-{{ ghost.version }}/ && nice npm install --production"

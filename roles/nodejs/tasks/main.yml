@@ -1,0 +1,17 @@
+- name: Install Nodejs and GCC
+  yum:
+    name: "{{ item }}"
+    state: installed
+  with_items:
+  - gcc 
+  - gcc-c++
+  - nodejs
+
+- name: Check Nodejs version
+  shell: node --version
+  register: node_version
+
+- name: Show Nodejs version
+  debug:
+    msg: "Nodejs version {{ node_version.stdout }}"
+

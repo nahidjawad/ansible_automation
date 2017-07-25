@@ -1,0 +1,14 @@
+- name: Ghost - Install packages
+  include: packages.yml
+
+- name: Ghost - Nginx reverse proxy
+  include: nginx.yml
+
+- name: Ghost - Create user ghost
+  include: user.yml
+
+- name: Ghost - Install Ghost CMS 
+  include: ghost.yml
+
+- name: Ghost - Start Ghost CMS
+  include: service.yml
